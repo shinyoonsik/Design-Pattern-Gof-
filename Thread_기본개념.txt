@@ -1,0 +1,26 @@
+- Process: OS로부터 메모리를 할당 받아 실행중인 프로그램
+	-> Process는 하나 이상의 thread가되어 스케줄러에 의해 cpu를 할당 받아 실행된다
+- Thread: 실제 프로그램이 수행되는 작업의 최소단위.
+	-> 하나의 프로세스는 하나 이상의 Thread를 가지게 되고 이 Thread가 실행되는 것이다
+
+- 특징
+	-> th.start()실행 시, run()메소드가 실행된다
+	-> th.start()의 실행 순서와 상관없이 Thread는 동시에 실행된다.
+	-> main()또한 하나의 Thread이다
+
+- Thread 상태
+	- start() -> Runnable한 상태가 됨 -> cpu를 할당 받은 Thread는 Run한 상태가됨 -> 종료
+				         // Run상태 중에서 sleep(), wait(), join()을 통해 not Runnable한 상태가 된 thread는 특정조건에 따라 다시 Runnable한 상태가 됨
+- Thread구현 방법
+	1. extends Thread를 통해 run()메소드 오버라이딩  
+		MyThread my = new MyThread(); my.start();
+
+	2. implements Runnable를 통해 run()메소드 오버라이딩 // 이미 다른 클래스를 상속받았다면 인터페이스사용.(자바는 단일 상속을 지원)
+		MyThead my = new MyThread(); Thread mm = new Thread(my); mm.start()		
+
+- Multi-thread프로그래밍: 동시에 여러개의 Thread가 수행되는 프로그래밍
+	- Thread는 각각의 작업공간(context)를 가지나 공유 자원(shared resource)이 있는 경우 race condition(경쟁 상태)이 발생.
+ 	  즉, A스레드가 t자원의 값을 -10하는데 동시에 B스레드가 t자원의 값을 +10한다면, t자원의 결과가 의도한 바와는 다른 상태를 가지게 된다.
+	  이런 경우를 대비해서 동기화작업이 필요하다. synchronized 키워드 사용; synchronized메소드는 자신이 속한 객체에 lock을 건다
+	  주의, 동기화를 잘못 구현하면 DeadLock(무한 대기 상태)에 빠질 수 있음
+	
